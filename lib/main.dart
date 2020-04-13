@@ -32,6 +32,9 @@ class RandomEnglishWordsState extends State<RandomEnglishWords> {
     return Scaffold(
       appBar: AppBar(
         title: Text("ListView Demo"),
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.list), onPressed: _pushToSelected)
+        ],
       ),
       body: new ListView.builder(itemBuilder: (context,index){
         //index = 0,1,2,3 là row của listview
@@ -41,6 +44,34 @@ class RandomEnglishWordsState extends State<RandomEnglishWords> {
         return _buildRow(_words[index], index);
       }),
     );
+  }
+
+  _pushToSelected(){
+    //print("You just press to button !");
+    final PageRoute pageRoute = new MaterialPageRoute(builder: (context){
+      final listTitles = _selectedWord.map((wordPair){
+        return new ListTile(
+          title: new Text(
+            wordPair.asUpperCase,
+            style: new TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        );
+      });
+
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text("Selected Words"),
+        ),
+        body: new ListView(
+          children: listTitles.toList(),
+        ),
+      );
+    });
+    Navigator.of(context).push(pageRoute); 
+
   }
 
   Widget _buildRow (WordPair wordPair, int index) {
