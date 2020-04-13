@@ -70,7 +70,7 @@ class RandomEnglishWordsState extends State<RandomEnglishWords> {
         ),
       );
     });
-    Navigator.of(context).push(pageRoute); 
+    Navigator.of(context).push(pageRoute);
 
   }
 
