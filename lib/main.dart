@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
+import 'tab1.dart';
+import 'tab2.dart';
+import 'tab3.dart';
+import 'tab4.dart';
 
 
 void main() => runApp(MyApp());
@@ -8,61 +11,35 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    final tabController = new DefaultTabController(
+      length: 4,
+      child: new Scaffold(
+        appBar: new AppBar(
+          bottom: new TabBar(tabs: [
+            new Tab(icon: new Icon(Icons.home, color: Colors.white,),text: "Home",),
+            new Tab(icon: new Icon(Icons.group, color: Colors.white,),text: "Group",),
+            new Tab(icon: new Icon(Icons.chat_bubble, color: Colors.white,),text: "Chat",),
+            new Tab(icon: new Icon(Icons.cloud, color: Colors.white,),text: "Cloud",),
+          ]),
+        ),
+        body: new TabBarView(
+            children: [
+              new Tab1(),
+              new Tab2(),
+              new Tab3(),
+              new Tab4()
+            ]
+        ),
       ),
-      home: RandomEnglishWords(),
     );
-  }
+    return new MaterialApp(
+      title: "Tab Example",
+      home: tabController,
+    );
 }
 
-class RandomEnglishWords extends StatefulWidget {
-  @override
-  RandomEnglishWordsState createState() => RandomEnglishWordsState();
-}
 
-class RandomEnglishWordsState extends State<RandomEnglishWords> {
-  final _words = <WordPair>[];
-  final _selectedWord = new Set<WordPair>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("ListView Demo"),
-      ),
-      body: new ListView.builder(itemBuilder: (context,index){
-        //index = 0,1,2,3 là row của listview
-        if(index >= _words.length){
-          _words.addAll(generateWordPairs().take(10));
-        }
-        return _buildRow(_words[index], index);
-      }),
-    );
-  }
-
-  Widget _buildRow (WordPair wordPair, int index) {
-    // this function will build a row of listview
-    final ischecked = _selectedWord.contains(wordPair);
-    return ListTile(
-      leading: new Icon(ischecked ? Icons.check_box : Icons.check_box_outline_blank, color: Colors.blue,),
-      title: new Text(
-        wordPair.asUpperCase,
-        style: new TextStyle(fontSize: 15.0, color: Colors.blue),
-      ),
-      onTap: (){
-          setState(() {
-            if(ischecked) {
-              _selectedWord.remove(wordPair);
-            }else {
-              _selectedWord.add(wordPair);
-            }
-          });
-      },
-    );
-  }
 
 }
 
